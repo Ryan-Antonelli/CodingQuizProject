@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.headerRow {}
+.headerCol {}
+
+.cardRow {}
+.cardCol {}
+.card {}
+.card-title {}
+
+.questionText {}
+#answer1 {}
+#answer2 {}
+#answer3 {}
+#answer4 {}
