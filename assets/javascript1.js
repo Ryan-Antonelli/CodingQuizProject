@@ -7,8 +7,7 @@ var highScores = document.getElementById("highScores");
 var clearHighScores = document.getElementById("clearHighScores");
 var form = document.getElementById("form");
 var timer = document.getElementById("timer");
-var submitButton = document.getElementById("submit");
-var inputs = document.getElementById("inputs");
+var startButton = document.getElementById("start");
 
 // multiple choice questions
 var quizQuestion0 = "question";
@@ -42,15 +41,17 @@ var quizChoices = [qq0Choices, qq1Choices, qq2Choices, qq3Choices, qq4Choices];
 var quizAnswers = [qq0Answer, qq1Answer, qq2Answer, qq3Answer, qq4Answer];
 
 var quizTimer = parseInt(quizQuestions.length * 15);
-var correctNumber = quizAnswers[i];
 
 // quiz start function
-$(submitButton).click(function(){     
+$("#start").click(function(){   
+
+     // hides start button
+    $(startButton).hide();    
 
     // iteratable question number
             // quiz timer
         if (i == 0) {  
-            myTimer = setInterval(function() {
+            var myTimer = setInterval(function() {
                 $("#timer")
                     .empty();
                 $("<h2>")
@@ -69,11 +70,11 @@ $(submitButton).click(function(){
         if (i < quizQuestions.length) {
             
             // iterated variables
-            
+            var correctNumber = quizAnswers[i];
             var questionNumber = quizQuestions[i];
             var answersNumber = quizChoices[i];
             // console.log(answersNumber.length);
-            $("#inputs")
+            $("#form")
                 .empty();
             
             $(cardTitle)
@@ -83,9 +84,9 @@ $(submitButton).click(function(){
             
             // shuffles answers
             function shuffleArray() {
-                for (let v = answersNumber.length - 1; v > 0; v--) {
-                    const x = Math.floor(Math.random() * (v + 1));
-                    [answersNumber[v], answersNumber[x]] = [answersNumber[x], answersNumber[v]];
+                for (let i = answersNumber.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [answersNumber[i], answersNumber[j]] = [answersNumber[j], answersNumber[i]];
                 }
             }
 
@@ -115,40 +116,38 @@ $(submitButton).click(function(){
             
             var input4 = $('<input type="radio" name="answer" id="answer4 required">')
                 .val(answersNumber[3]);
-                        
-            $(inputs)
-                .append(label1, input1, $("<br>"), label2, input2, $("<br>"), label3,  input3, $("<br>"), label4, input4);       
             
-            $(submitButton).val("Next")
-        
-        
-        
+ 
+                        
+            $(form)
+                .append(label1, input1, $("<br>"), label2, input2, $("<br>"), label3,  input3, $("<br>"), label4, input4);       
+            return;
         }
         
         else {
             endQuiz();
         }
+
+
+
 }); 
 
-$(submitButton).click(function(){
-    
-    // pulls value of checked radio input
-    var checked = $("input[name='answer']:checked").attr("id");
-    console.log(checked);
-    var checkedLabel = $("label[for=" + checked + "]").text();
-    console.log(checkedLabel);
-    // checks results against correct answer
-    
-    if (checkedLabel == correctNumber) {
-            i++; 
-            console.log(correctNumber);
-    }
-    else {
-            quizTimer - 15;
-            i++;
-    }
+// pulls value of checked radio input
+var checked = $("input[name='answer']:checked").attr("id");
+console.log(checked);
+var checkedLabel = $("label[for=" + checked + "]").text();
+console.log(checkedLabel);
+// checks results against correct answer
+if (checkedLabel == correctNumber) {
+        i++; 
+                   console.log(correctNumber);
+}
+else {
+        quizTimer - 15;
+        i++;
+}
 
-});
+
 
 // end of quiz- either completed or timed out
 function endQuiz () {
@@ -161,20 +160,12 @@ function endQuiz () {
         .text("")
     $(cardTitle)
         .text("You have completed the challenge!")
-    var initials = prompt("Please enter your initials for the High Score list!")
-    
-    var highScore = initials + " " + quizTimer
-    
-    // $(highScores).text(highScore) needs location changed to new page
-    
-    localStorage.setItem("highScore", highScore)
-    
     clearInterval(myTimer);
     $("#timer").empty();
 
 
     // save high scores
 }
-
-// Why are the values in the checking function undefined
+// why doesn't the endQuiz function clearInterval work?
+// Why doesn't displayRadioValue run?
 

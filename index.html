@@ -16,7 +16,7 @@
 
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
             <a class="navbar-brand" href="#">HTML/CSS/javaScript Coding Quiz</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +29,7 @@
                     High Scores
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#" id="highScores">High Scores</a>
+                    <a class="dropdown-item" href="./highScores.html" id="highScores">High Scores</a>
                     <a class="dropdown-item" href="#" id="clearHighScores">Clear High Scores</a>
                   </div>
                 </li>
@@ -39,14 +39,22 @@
         
         <div class="row cardRow">
             <div class="col-sm-12 cardCol">
-                <div class="card" style="width: 30rem;">
-                    <img class="card-img-top" src="#" alt="Card image cap">
+                <div class="card" style="width: 30%;">
+                    <div>
+                      <span id="timer">
+                        
+                      </span>
+                    </div>
                     <div class="card-body">
                       <h5 class="card-title" id="cardTitle">Card title</h5>
                       <p class="card-text" id="questionText">Questions</p>
                       <form id="form">
-
+                        <div id="inputs">
+                          
+                        </div>
+                        <input type="submit" id="submit" value="Start Quiz"></input>
                       </form>
+                      
                 
                     </div>
                 </div>
