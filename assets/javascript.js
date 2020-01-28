@@ -9,6 +9,8 @@ var form = document.getElementById("form");
 var timer = document.getElementById("timer");
 var submitButton = document.getElementById("submit");
 var inputs = document.getElementById("inputs");
+var radioButtons = $("input[name='answer']");
+var highScoreList = document.getElementById("scores");
 
 // multiple choice questions
 var quizQuestion0 = "question";
@@ -42,11 +44,10 @@ var quizChoices = [qq0Choices, qq1Choices, qq2Choices, qq3Choices, qq4Choices];
 var quizAnswers = [qq0Answer, qq1Answer, qq2Answer, qq3Answer, qq4Answer];
 
 var quizTimer = parseInt(quizQuestions.length * 15);
-var correctNumber = quizAnswers[i];
+
 
 // quiz start function
 $(submitButton).click(function(){     
-
     // iteratable question number
             // quiz timer
         if (i == 0) {  
@@ -59,7 +60,7 @@ $(submitButton).click(function(){
                 quizTimer--;
             }, 1000);
             
-            if (quizTimer == 0) {
+            if (quizTimer === 0) {
                 endQuiz();
             }         
         }
@@ -95,32 +96,58 @@ $(submitButton).click(function(){
             var label1 = $('<label for="answer1" class="px-2">')
                 .text(answersNumber[0]);
             
-            var input1 = $('<input type="radio" name="answer" id="answer1" required></input>')
+            var input1 = $('<input type="radio" class="radio" name="answer" id="answer1" required></input>')
                 .val(answersNumber[0]);
 
             var label2 = $('<label for="answer2" class="px-2">')
                 .text(answersNumber[1]);
             
-            var input2 = $('<input type="radio" name="answer" id="answer2" required>')
+            var input2 = $('<input type="radio" class="radio" name="answer" id="answer2" required>')
                 .val(answersNumber[1]);
             
             var label3 = $('<label for="answer3" class="px-2">')
                 .text(answersNumber[2]);
             
-            var input3 = $('<input type="radio" name="answer" id="answer3 required">')
+            var input3 = $('<input type="radio" class="radio" name="answer" id="answer3" required">')
                 .val(answersNumber[2]);
             
             var label4 = $('<label for="answer4" class="px-2">')
                 .text(answersNumber[3]);
             
-            var input4 = $('<input type="radio" name="answer" id="answer4 required">')
+            var input4 = $('<input type="radio" class="radio" name="answer" id="answer4" required">')
                 .val(answersNumber[3]);
                         
             $(inputs)
                 .append(label1, input1, $("<br>"), label2, input2, $("<br>"), label3,  input3, $("<br>"), label4, input4);       
             
             $(submitButton).val("Next")
-        
+
+            var radioButtons = $("input[name='answer']");
+            var correctNumber = quizAnswers[i];
+            // console.log(radioButtons)
+            console.log(correctNumber)
+            $(radioButtons).change(function(){
+    
+                // pulls value of checked radio input
+                var checked = $("input[name='answer']:checked").attr("id");
+                // console.log(checked);
+                var checkedLabel = $("label[for=" + checked + "]").text();
+                // console.log(checkedLabel);
+                // checks results against correct answer
+                
+                if (checkedLabel === correctNumber) {
+                        // console.log(checkedLabel)
+                        // console.log(correctNumber)
+                        i++; 
+                        $("<h2>").text("Correct!").appendTo(inputs)
+                }
+                else {
+                        quizTimer -= 15
+                        $("<h2>").text("Wrong!").appendTo(inputs)
+                        i++;
+                }
+            
+            });
         
         
         }
@@ -130,25 +157,7 @@ $(submitButton).click(function(){
         }
 }); 
 
-$(submitButton).click(function(){
-    
-    // pulls value of checked radio input
-    var checked = $("input[name='answer']:checked").attr("id");
-    console.log(checked);
-    var checkedLabel = $("label[for=" + checked + "]").text();
-    console.log(checkedLabel);
-    // checks results against correct answer
-    
-    if (checkedLabel == correctNumber) {
-            i++; 
-            console.log(correctNumber);
-    }
-    else {
-            quizTimer - 15;
-            i++;
-    }
 
-});
 
 // end of quiz- either completed or timed out
 function endQuiz () {
@@ -162,19 +171,31 @@ function endQuiz () {
     $(cardTitle)
         .text("You have completed the challenge!")
     var initials = prompt("Please enter your initials for the High Score list!")
-    
-    var highScore = initials + " " + quizTimer
-    
-    // $(highScores).text(highScore) needs location changed to new page
-    
-    localStorage.setItem("highScore", highScore)
-    
+    alert("Dear " + initials + ", Your score was " + quizTimer)
+    var highScore = quizTimer
+    localStorage.setItem("highScore", initials + highScore)
+    // console.log(highScore)
+    // console.log(initials)
     clearInterval(myTimer);
     $("#timer").empty();
 
-
-    // save high scores
 }
 
-// Why are the values in the checking function undefined
+// High Score Page Text
+$(document).ready(function(){
+    var storage = localStorage.getItem("highScore")
+    $("highScoreList").text(storage)
+    // console.log(highScore)
+})
+
+// Clear High Scores
+
+$("#clearHighScores").click(function() {
+   localStorage.clear(); 
+})
+
+
+
+
+
 
